@@ -1,0 +1,43 @@
+{
+    "items": [
+        {
+        "name": "KindleFere Tools",
+        "priority": 0,
+        "items": [
+            {
+                "name": "Clean SDR Folder",
+                "priority": 1,
+                "action": "./bin/sdr_cleaner.sh",
+                "exitmenu": true,
+                "checked": true,
+                "status": false,
+                "internal": "status Unused SDR folder was cleaned!"
+            },
+            {
+                "name": "Version & Update",
+                "priority": 2,
+                "items": [
+                    {
+                        "name": "Update Latest Version",
+                        "priority": 1,
+                        "action": "./bin/update.sh",
+                        "exitmenu": true,
+                        "checked": true,
+                        "status": false,
+                        "internal": "status Update to new version ..."
+                    },
+                    {
+                        "name": "Show Current Version",
+                        "priority": 2,
+                        "action": "./bin/show_version.sh",
+                        "exitmenu": false,
+                        "checked": true,
+                        "status": false,
+                        "internal": "status Current Version is 1.0.0"
+                    }
+                ]
+            }
+        ]
+        }
+    ]
+}
