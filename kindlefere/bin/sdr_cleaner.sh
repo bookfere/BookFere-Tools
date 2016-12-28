@@ -6,4 +6,4 @@
 
 # sdrCleaner
 cd /chroot/mnt/us/extensions/kindlefere/bin
-python ./sdr_Cleaner.py
+python ./sdr_cleaner.py
