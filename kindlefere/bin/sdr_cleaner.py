@@ -26,43 +26,21 @@ def do_clean_screenshot(kindle_path):
     return screenshot_list
 
 
-def do_clean_sdr(documents_path):
-    book_suffixs = [
-        '.azw',
-        '.azw3',
-        '.pdf',
-        '.txt',
-        '.prc',
-        '.mobi',
-        '.pobi',
-        '.epub',
-        '.azw4',
-        '.kfx',
-    ]
-    sdr_suffixs = [
-        '.sdr',
-        '.dir'
-    ]
-    book_names = set()
-    for book_suffix in book_suffixs:
-        book_names |= set([os.path.splitext(name)[0] for name in glob.glob1(documents_path, '*' + book_suffix)])
-    sdr_names = set()
-    for sdr_suffix in sdr_suffixs:
-        sdr_names |= set([os.path.splitext(name)[0] for name in glob.glob1(documents_path, '*' + sdr_suffix)])
+def do_clean_dir(documents_path, book_names, dir_names, dir_suffixs):
+    fail_list = []
+    success_list = []
     # 差集为需要删除的文件夹
-    sdr_fail_list = []
-    sdr_success_list = []
-    for unused_sdr_name in sdr_names - book_names:
-        for sdr_suffix in sdr_suffixs:
-            sdr_path = os.path.join(documents_path, unused_sdr_name + sdr_suffix)
-            if os.path.exists(sdr_path):
+    for unused_name in dir_names - book_names:
+        for dir_suffix in dir_suffixs:
+            dir_path = os.path.join(documents_path, unused_name + dir_suffix)
+            if os.path.exists(dir_path):
                 try:
-                    shutil.rmtree(sdr_path)
+                    shutil.rmtree(dir_path)
                 except OSError:
-                    sdr_fail_list.append(sdr_path)
+                    fail_list.append(dir_path)
                 else:
-                    sdr_success_list.append(sdr_path)
-    return sdr_success_list, sdr_fail_list
+                    success_list.append(dir_path)
+    return success_list, fail_list
 
 
 def do_log_success(log_file, name, file_list):
@@ -82,18 +60,11 @@ def do_log_fail(log_file, name, file_list):
         log_file.write('=================================\n')
 
 
-def do_generate_log(log_path, sdr_success_list, sdr_fail_list, screenshot_list):
-    current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    with open(log_path, 'w') as new_log:
-        new_log.write('清理时间 ' + current_time)
-        new_log.write('\n=================================\n')
-        do_log_success(new_log, '无用 SDR 文件夹', sdr_success_list)
-        do_log_fail(new_log, '无用 SDR 文件夹', sdr_fail_list)
-        if sdr_fail_list:
-            new_log.write('* 删除失败是因为该文件名中含有特殊字符无法被删除，目前还没找到好的办法解决，请暂时手动删除。\n')
-            new_log.write('---------------------------------\n')
-        do_log_success(new_log, '截图', screenshot_list)
-        new_log.write('Kindle 伴侣 - 为精心阅读而生\nhttp://kindlefere.com\n')
+def get_names(path, patterns):
+    names = set()
+    for pattern in patterns:
+        names |= set([os.path.splitext(name)[0] for name in glob.glob1(path, pattern)])
+    return names
 
 
 # Process
@@ -109,13 +80,44 @@ def process_clean(kindle_path):
     screenshot_list = []
     if clean_screenshot:
         screenshot_list = do_clean_screenshot(kindle_path)
+    book_patterns = [
+        '*.azw',
+        '*.azw3',
+        '*.pdf',
+        '*.txt',
+        '*.prc',
+        '*.mobi',
+        '*.pobi',
+        '*.epub',
+        '*.azw4',
+        '*.kfx',
+    ]
+    sdr_suffixs = [
+        '.sdr',
+    ]
+    dir_suffixs = [
+        '.dir'
+    ]
+    book_names = get_names(documents_path, book_patterns)
+    sdr_names = get_names(documents_path, ['*'+suffix for suffix in sdr_suffixs])
+    dir_names = get_names(documents_path, ['*'+suffix for suffix in dir_suffixs])
     # Clean SDR Folder
-    sdr_success_list, sdr_fail_list = do_clean_sdr(documents_path)
+    sdr_success_list, sdr_fail_list = do_clean_dir(documents_path, book_names, sdr_names, sdr_suffixs)
+    # Clean DIR Folder
+    dir_success_list, dir_fail_list = do_clean_dir(documents_path, book_names, dir_names, dir_suffixs)
     # Generate Clean Log
     if generate_log:
-        do_generate_log(log_path, sdr_success_list, sdr_fail_list, screenshot_list)
+        with open(log_path, 'w') as new_log:
+            current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            new_log.write('清理时间 ' + current_time)
+            new_log.write('\n=================================\n')
+            do_log_success(new_log, '无用 SDR 文件夹', sdr_success_list)
+            do_log_fail(new_log, '无用 SDR 文件夹', sdr_fail_list)
+            do_log_success(new_log, '无用 DIR 文件夹', dir_success_list)
+            do_log_fail(new_log, '无用 DIR 文件夹', dir_fail_list)
+            do_log_success(new_log, '截图', screenshot_list)
+            new_log.write('Kindle 伴侣 - 为精心阅读而生\nhttp://kindlefere.com\n')
 
 
 if __name__ == '__main__':
-    # Execute
-    process_clean('/path/to/kindle')
+    process_clean(sys.argv[1])
