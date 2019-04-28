@@ -1,7 +1,8 @@
 #!/bin/sh
 
 #------------------------
-# kindlefere.com
+# bookfere.com
 #------------------------
 
-# Show Version
+# Kindle root path
+KINDLE_PATH=/chroot/mnt/us

@@ -14,7 +14,7 @@ cleanlog  = True
 # Process
 def onProcess(kindlePath) :
 
-    documentsPath = kindlePath + 'documents'
+    documentsPath = kindlePath + '/documents'
     checkDocumentsPathVer = os.path.exists(documentsPath)
 
     logFile = documentsPath + '/sdrCleaner_log.txt'

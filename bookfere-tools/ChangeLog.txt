@@ -1,4 +1,4 @@
-KindleFere Tools - 更新日志
+BookFere Tools - 更新日志
 ===========================================
 
 2016-12-16 14:45 KindleFere
@@ -16,5 +16,10 @@ KindleFere Tools - 更新日志
                - 默认设置不删除 Kindle 截图。
                - 添加版本判断功能，相同版本不重复下载更新。
 
+2019-04-26 18:39 BookFere
+    
+    * [v1.0.3] - 更名为 BookFere Tools
+               - 增加辅助修改 Kindle 原生系统页边距功能
+
 ===========================================
-kindlefere.com
+bookfere.com
