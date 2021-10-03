@@ -4,8 +4,9 @@
 import os, sys, glob, shutil, datetime, re, codecs
 
 #fix ''ascii' codec can't decode byte 0xe8 in position ...'
-reload(sys)
-sys.setdefaultencoding('utf-8')
+if sys.version_info.major < 3:
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
 
 # Define
 cleanshot = False
@@ -13,7 +14,6 @@ cleanlog  = True
 
 # Process
 def onProcess(kindlePath) :
-
     documentsPath = kindlePath + '/documents'
     checkDocumentsPathVer = os.path.exists(documentsPath)
 
@@ -137,7 +137,7 @@ def onProcess(kindlePath) :
                                 shutil.rmtree(unsdr)
                                 if unsdr == 'sdrCleaner_log.sdr' :
                                     continue
-                            except OSError, (errno, strerror):
+                            except OSError:
                                 sdr_f_count += 1
                                 sdr_list_f += u'\u25cf ' + unsdr +'\n'
                             else:
@@ -196,7 +196,7 @@ def onProcess(kindlePath) :
                                 shutil.rmtree(undir)
                                 if undir == 'sdrCleaner_log.dir' :
                                     continue
-                            except OSError, (errno, strerror):
+                            except OSError:
                                 dir_f_count += 1
                                 dir_list_f += u'\u25cf ' + undir +'\n'
                             else:
@@ -241,7 +241,7 @@ def onProcess(kindlePath) :
             new_log.write('共删除成功 ' + shot_count_str +' 个截图：\n---------------------------------\n')
             new_log.write(scs_list)
             new_log.write('=================================\n')
-        new_log.write('Kindle 伴侣 - 为静心阅读而生\nhttp://kindlefere.com')
+        new_log.write('书伴 - 为静心阅读而生\nhttps://bookfere.com')
         new_log.close()
 
 # Execute

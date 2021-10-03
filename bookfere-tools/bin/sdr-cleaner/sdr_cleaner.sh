@@ -6,10 +6,21 @@
 
 . ./bin/config.sh
 
-# Run sdr_cleaner
-if [ ! -f /usr/bin/python ]; then
-    /usr/bin/WebReaderViewer 'Need install python to Kindle.' string
+PYTHON=/usr/bin/python
+PYTHON3=/usr/bin/python3
+
+# Check if python installed.
+if [ -f $PYTHON3 ]; then
+    $PYTHON3 $SDR_SCRIPT $KINDLE_PATH
+elif [ -f $PYTHON ]; then
+    $PYTHON2 $SDR_SCRIPT $KINDLE_PATH
 else
-    /usr/bin/python ./bin/sdr-cleaner/sdr_cleaner.py ${KINDLE_PATH}
-    /usr/bin/WebReaderViewer 'SDR folder clear completed.' string
+    $MSG_VIEWER 'Need install python to Kindle.' string
+    exit 0
+fi
+
+if [ $? = 0 ]; then
+    $MSG_VIEWER 'SDR folder clear completed.' string
+else
+    $MSG_VIEWER 'Unexpected error.' string
 fi

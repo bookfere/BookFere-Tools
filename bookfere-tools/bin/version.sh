@@ -4,6 +4,8 @@
 # bookfere.com
 #------------------------
 
+. ./bin/config.sh
+
 # Show Current Version
 CURRENT_VERSION=$(/bin/cat ./VERSION)
-/usr/bin/WebReaderViewer "Current version is ${CURRENT_VERSION}." string
+$MSG_VIEWER "Current version is ${CURRENT_VERSION}." string

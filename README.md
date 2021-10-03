@@ -2,7 +2,6 @@
 
 这是一款依赖于 KUAL 的 Kindle 越狱插件，集合了一下功能：
 
-* Change Margins：辅助更改 Kindle 原生系统页面边距工具。
 * SDR Cleaner：可清理 Kindle 中删除电子书后残留 sdr 文件夹（源自 UI 版 [sdr-Cleaner](https://bookfere.com/post/43.html)）。
 * Version & Update：可查看工具包版本，以及对工具包进行在线升级。
 
