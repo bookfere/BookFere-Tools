@@ -15,7 +15,7 @@
                         "exitmenu": true,
                         "checked": false,
                         "status": false,
-                        "internal": "status Unused SDR folder was cleaned!"
+                        "internal": "status Unused SDR folder was cleared!"
                     },
                     {
                         "name": "Enable Generate Log",
