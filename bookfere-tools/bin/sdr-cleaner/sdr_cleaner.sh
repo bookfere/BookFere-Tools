@@ -9,10 +9,11 @@
 SUCCESS=0
 PATH1=/usr/bin/python3
 PATH2=/mnt/us/python3/bin/python3.8
-PATH3=/usr/bin/python
-PATH4=/mnt/us/python2/bin/python2.7
+PATH3=/mnt/us/python3/bin/python3.9
+PATH4=/usr/bin/python
+PATH5=/mnt/us/python2/bin/python2.7
 
-for PYTHON in $PATH1 $PATH2 $PATH3 $PATH4; do
+for PYTHON in $PATH1 $PATH2 $PATH3 $PATH4 $PATH5; do
     if [ -f $PYTHON ]; then
         $PYTHON $SDR_SCRIPT
         SUCCESS=1
