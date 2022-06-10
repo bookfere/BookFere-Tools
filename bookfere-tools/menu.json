@@ -1,85 +1,94 @@
 {
     "items": [
         {
-        "name": "BookFere Tools",
-        "priority": 0,
-        "items": [
-            {
-                "name": "SDR Cleaner",
-                "priority": 1,
-                "items": [
-                    {
-                        "name": "Clean SDR Folder",
-                        "priority": 1,
-                        "action": "./bin/sdr-cleaner/sdr_cleaner.sh",
-                        "exitmenu": true,
-                        "checked": false,
-                        "status": false,
-                        "internal": "status Unused SDR folder was cleared!"
-                    },
-                    {
-                        "name": "Enable Generate Log",
-                        "priority": 2,
-                        "action": "./bin/sdr-cleaner/enable_log.sh",
-                        "exitmenu": false,
-                        "checked": false,
-                        "status": false,
-                        "internal": "status Enable generate log file!"
-                    },
-                    {
-                        "name": "Disable Generate Log",
-                        "priority": 3,
-                        "action": "./bin/sdr-cleaner/disable_log.sh",
-                        "exitmenu": false,
-                        "checked": false,
-                        "status": false,
-                        "internal": "status Disable generate log file!"
-                    },
-                    {
-                        "name": "Enable Clean Screenshot",
-                        "priority": 4,
-                        "action": "./bin/sdr-cleaner/enable_ss.sh",
-                        "exitmenu": false,
-                        "checked": false,
-                        "status": false,
-                        "internal": "status Enable clean screenshot!"
-                    },
-                    {
-                        "name": "Disable Clean Screenshot",
-                        "priority": 5,
-                        "action": "./bin/sdr-cleaner/disable_ss.sh",
-                        "exitmenu": false,
-                        "checked": false,
-                        "status": false,
-                        "internal": "status Disable clean screenshot!"
-                    }
-                ]
-            },
-            {
-                "name": "Version & Update",
-                "priority": 2,
-                "items": [
-                    {
-                        "name": "Update Latest Version",
-                        "priority": 1,
-                        "action": "./bin/update.sh",
-                        "exitmenu": true,
-                        "checked": false,
-                        "status": false,
-                        "internal": "status Update to new version ..."
-                    },
-                    {
-                        "name": "Show Current Version",
-                        "priority": 2,
-                        "action": "./bin/version.sh",
-                        "exitmenu": false,
-                        "checked": false,
-                        "status": false,
-                        "internal": "status Show current version"
-                    }
-                ]
-            }
-        ]
+            "name": "BookFere Tools",
+            "priority": 0,
+            "items": [
+                {
+                    "name": "SDR Cleaner",
+                    "priority": 0,
+                    "items": [
+                        {
+                            "name": "Clean SDR Folder",
+                            "priority": 0,
+                            "action": "./bin/sdr-cleaner/sdr_cleaner.sh",
+                            "exitmenu": true,
+                            "checked": false,
+                            "status": false,
+                            "internal": "status Unused SDR folder was cleared!"
+                        },
+                        {
+                            "name": "Enable Generate Log",
+                            "priority": 1,
+                            "action": "./bin/sdr-cleaner/enable_log.sh",
+                            "exitmenu": false,
+                            "checked": false,
+                            "status": false,
+                            "internal": "status Enable generate log file!"
+                        },
+                        {
+                            "name": "Disable Generate Log",
+                            "priority": 2,
+                            "action": "./bin/sdr-cleaner/disable_log.sh",
+                            "exitmenu": false,
+                            "checked": false,
+                            "status": false,
+                            "internal": "status Disable generate log file!"
+                        },
+                        {
+                            "name": "Enable Clean Screenshot",
+                            "priority": 3,
+                            "action": "./bin/sdr-cleaner/enable_ss.sh",
+                            "exitmenu": false,
+                            "checked": false,
+                            "status": false,
+                            "internal": "status Enable clean screenshot!"
+                        },
+                        {
+                            "name": "Disable Clean Screenshot",
+                            "priority": 4,
+                            "action": "./bin/sdr-cleaner/disable_ss.sh",
+                            "exitmenu": false,
+                            "checked": false,
+                            "status": false,
+                            "internal": "status Disable clean screenshot!"
+                        }
+                    ]
+                },
+                {
+                    "name": "Fix Ebook Cover",
+                    "priority": 1,
+                    "action": "./bin/fix-cover/fix_cover.sh",
+                    "exitmenu": true,
+                    "checked": false,
+                    "status": false,
+                    "internal": "status Fix damaged cover!"
+                },
+                {
+                    "name": "Version & Update",
+                    "priority": 2,
+                    "items": [
+                        {
+                            "name": "Update Latest Version",
+                            "priority": 1,
+                            "action": "./bin/update.sh",
+                            "exitmenu": true,
+                            "checked": false,
+                            "status": false,
+                            "internal": "status Update to new version ..."
+                        },
+                        {
+                            "name": "Show Current Version",
+                            "priority": 2,
+                            "action": "./bin/version.sh",
+                            "exitmenu": false,
+                            "checked": false,
+                            "status": false,
+                            "internal": "status Show current version"
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

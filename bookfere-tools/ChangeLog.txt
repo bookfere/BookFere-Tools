@@ -17,14 +17,18 @@ BookFere Tools - 更新日志
                - 添加版本判断功能，相同版本不重复下载更新。
 
 2019-04-26 18:39 BookFere
-    
+
     * [v1.0.3] - 更名为 BookFere Tools
                - 增加辅助修改 Kindle 原生系统页边距功能
 
 2021-10-03 20:05 Bookfere
 
-    * [v1.0.3] - 同时支持 Python3 和 Python2
+    * [v1.0.4] - SDR Cleaner 同时支持 Python3 和 Python2
                - 移除已经失效的辅助修改 Kindle 原生系统页边距功能
+
+2022-06-10 08:24 Bookfere
+
+    * [v1.0.5] - 添加修复显示为“暂无图片”的电子书封面功能
 
 ===========================================
 bookfere.com

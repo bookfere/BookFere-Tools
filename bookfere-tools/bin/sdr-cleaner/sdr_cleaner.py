@@ -246,4 +246,4 @@ def onProcess(kindlePath) :
 
 # Execute
 if __name__ == '__main__':
-    onProcess('/chroot/mnt/us/')
+    onProcess('/mnt/us/')

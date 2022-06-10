@@ -8,4 +8,4 @@
 
 # Show Current Version
 CURRENT_VERSION=$(/bin/cat ./VERSION)
-$MSG_VIEWER "Current version is ${CURRENT_VERSION}." string
+eips 1 2 "${CURRENT_VERSION}"
