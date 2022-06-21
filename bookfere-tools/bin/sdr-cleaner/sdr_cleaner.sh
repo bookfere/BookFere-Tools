@@ -6,19 +6,19 @@
 
 . ./bin/config.sh
 
-eips 1 2 'Working...'
+print_log 3 'Working...'
 
-if [ -f $PYTHON2 ]; then
+if [ -f "$PYTHON2" ]; then
     $PYTHON2 $SDR_SCRIPT
-elif [ -f $PYTHON3 ]; then
+elif [ -f "$PYTHON3" ]; then
     $PYTHON3 $SDR_SCRIPT
 else
-    eips 1 2 'Need to install a Python on the Kindle.'
+    print_log 4 'Need to install a Python on the Kindle.'
     exit 0
 fi
 
 if [ $? = 0 ]; then
-    eips 1 2 'All unused SDR folders was cleared.'
+    print_log 4 'All unused SDR folders was cleared.'
 else
-    eips 1 2 'Unexpected error occurs.'
+    print_log 4 'Unexpected error occurs.'
 fi

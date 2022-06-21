@@ -8,4 +8,4 @@
 
 # Show Current Version
 CURRENT_VERSION=$(/bin/cat ./VERSION)
-eips 1 2 "${CURRENT_VERSION}"
+print_log 3 "${CURRENT_VERSION}"

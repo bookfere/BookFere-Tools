@@ -12,7 +12,7 @@ REMOTE_URL=http://soft.bookfere.com/bookfere-tools
 REMOTE_VERSION=BOOKFERE_VERSION
 REMOTE_PACKAGE=bookfere-tools.zip
 
-eips 1 2 'Working...'
+print_log 3 'Working...'
 
 DOWNLOADED_VERSION=${EXTENSION_PATH}/${REMOTE_VERSION}
 /usr/bin/wget -O $DOWNLOADED_VERSION ${REMOTE_URL}/VERSION
@@ -33,14 +33,14 @@ if [ -f "$DOWNLOADED_VERSION" ]; then
             /bin/rm -rf $PLUGIN_PATH
             /usr/bin/unzip -oq $DOWNLOADED_PACKAGE -d $EXTENSION_PATH
             /bin/rm -f $DOWNLOADED_PACKAGE
-            eips 1 2 "$LOCAL_VERSION -> $REMOTE_VERSION"
-            eips 1 3 'Updated latest version.'
+            print_log 4 "$LOCAL_VERSION -> $REMOTE_VERSION"
+            print_log 5 'Updated latest version.'
         else
-            eips 1 3 'Update failed.'
+            print_log 4 'Update failed.'
         fi
     else
-        eips 1 2 'No Update available.'
+        print_log 4 'No Update available.'
     fi
 else
-    eips 1 2 'Update server error.'
+    print_log 4 'Update server error.'
 fi
