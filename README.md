@@ -3,7 +3,7 @@
 这是一款依赖于 KUAL 的 Kindle 越狱插件，集合了一下功能：
 
 * SDR Cleaner：可清理删除电子书后残留的 sdr 文件夹（源自 UI 版 [sdr-Cleaner](https://bookfere.com/post/43.html)）。
-* Fix Ebook Cover：修复显示为“暂无图片”的电子书封面（源自 [Fix-Kindle-Ebook-Cover](https://bookfere.com/post/986.html)）。
+* Fix Ebook Cover：修复电子书封面（源自 [Fix-Kindle-Ebook-Cover](https://bookfere.com/post/994.html)）。
 * Disable Firmware Update: 填充存储空间不足 150MB 已达到禁止固件升级的目的。
 * Version & Update：查看工具包版本，对工具包进行在线升级。
 

@@ -69,9 +69,18 @@
                             "internal": "status Fix damaged ebook covers."
                         },
                         {
-                            "name": "Clean Cover",
+                            "name": "Fix Cover (Log)",
                             "priority": 0,
-                            "action": "./bin/fix-cover/fix_cover.sh -c",
+                            "action": "./bin/fix-cover/fix_cover.sh --log",
+                            "exitmenu": true,
+                            "checked": false,
+                            "status": false,
+                            "internal": "status Fix damaged ebook covers with log."
+                        },
+                        {
+                            "name": "Clean Cover",
+                            "priority": 1,
+                            "action": "./bin/fix-cover/fix_cover.sh --clean",
                             "exitmenu": true,
                             "checked": false,
                             "status": false,
@@ -84,7 +93,7 @@
                     "priority": 2,
                     "items": [
                         {
-                            "name": "Fill Placeholder",
+                            "name": "Create Placeholder",
                             "priority": 0,
                             "action": "./bin/disable-update/disable_update.sh",
                             "exitmenu": true,
