@@ -5,6 +5,7 @@
 * SDR Cleaner：可清理删除电子书后残留的 sdr 文件夹（源自 UI 版 [sdr-Cleaner](https://bookfere.com/post/43.html)）。
 * Fix Ebook Cover：修复电子书封面（源自 [Fix-Kindle-Ebook-Cover](https://bookfere.com/post/994.html)）。
 * Disable Firmware Update: 填充存储空间不足 150MB 已达到禁止固件升级的目的。
+* Fix Google Translate: 通过修改 hosts 文件恢复谷歌翻译 API 可用（如 KOReader 内置翻译）。
 * Version & Update：查看工具包版本，对工具包进行在线升级。
 
 注意，使用此工具包需要为 Kindle 越狱，并安装 KUAL 插件及 Kindle Python。
