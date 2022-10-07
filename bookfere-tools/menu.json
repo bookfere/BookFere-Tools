@@ -113,8 +113,32 @@
                     ]
                 },
                 {
-                    "name": "Version & Update",
+                    "name": "Fix Google Translate",
                     "priority": 3,
+                    "items": [
+                        {
+                            "name": "Add IP",
+                            "priority": 0,
+                            "action": "./bin/fix-google-translate/fix_google_translate.sh",
+                            "exitmenu": true,
+                            "checked": false,
+                            "status": false,
+                            "internal": "status Added IP to hosts file."
+                        },
+                        {
+                            "name": "Delete IP",
+                            "priority": 1,
+                            "action": "./bin/fix-google-translate/fix_google_translate.sh -d",
+                            "exitmenu": true,
+                            "checked": false,
+                            "status": false,
+                            "internal": "status Remove IP from hosts file."
+                        }
+                    ]
+                },
+                {
+                    "name": "Version & Update",
+                    "priority": 4,
                     "items": [
                         {
                             "name": "Update Latest Version",
