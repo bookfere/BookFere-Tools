@@ -132,7 +132,7 @@
                             "exitmenu": true,
                             "checked": false,
                             "status": false,
-                            "internal": "status Remove IP from hosts file."
+                            "internal": "status Delete IP from hosts file."
                         }
                     ]
                 },
