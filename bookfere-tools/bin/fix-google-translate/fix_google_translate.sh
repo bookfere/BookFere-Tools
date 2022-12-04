@@ -118,19 +118,7 @@ SED_CMD=/bin/sed
 GREP_CMD=/bin/grep
 CURL_CMD=/usr/bin/curl
 
-for i in $IPS; do
-    TRANS=$($CURL_CMD -sk $API --resolve $TARGET_DOMAIN:443:$i \
-    | $GREP_CMD '"trans":"bonjour"')
-    if [ -n "$TRANS" ]; then IP=$i; break; fi
-done
-
-if [ ! -n "$IP" ]; then
-    print_log 3 "No IP available!"
-    exit 0
-fi
-
 OLD_RULE=$(cat $HOSTS_FILE | grep $TARGET_DOMAIN)
-NEW_RULE="$IP $TARGET_DOMAIN"
 
 if [ "$1" == "-d" ]; then
     if [ -n "$OLD_RULE" ]; then
@@ -143,6 +131,19 @@ if [ "$1" == "-d" ]; then
     print_log 4 "Done."
     exit 0
 fi
+
+for i in $IPS; do
+    TRANS=$($CURL_CMD -sk $API --resolve $TARGET_DOMAIN:443:$i \
+    | $GREP_CMD '"trans":"bonjour"')
+    if [ -n "$TRANS" ]; then IP=$i; break; fi
+done
+
+if [ ! -n "$IP" ]; then
+    print_log 3 "No IP available!"
+    exit 0
+fi
+
+NEW_RULE="$IP $TARGET_DOMAIN"
 
 if [ -n "$OLD_RULE" ]; then
     if [ "$OLD_RULE" != "$NEW_RULE" ]; then
