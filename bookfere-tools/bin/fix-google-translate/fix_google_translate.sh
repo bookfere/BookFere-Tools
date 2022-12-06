@@ -120,6 +120,8 @@ CURL_CMD=/usr/bin/curl
 
 OLD_RULE=$(cat $HOSTS_FILE | grep $TARGET_DOMAIN)
 
+mntroot rw
+
 if [ "$1" == "-d" ]; then
     if [ -n "$OLD_RULE" ]; then
         print_log 3 "Deleting the rule \"$OLD_RULE\""
@@ -159,3 +161,5 @@ else
 fi
 
 print_log 4 'Done.'
+
+mntroot ro
