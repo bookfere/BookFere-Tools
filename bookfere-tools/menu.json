@@ -85,6 +85,33 @@
                             "checked": false,
                             "status": false,
                             "internal": "status Clean orphan eoobk covers."
+                        },
+                        {
+                            "name": "Show Cover Diff (read-only)",
+                            "priority": 2,
+                            "action": "./bin/fix-cover/fast_fix.sh --status",
+                            "exitmenu": true,
+                            "checked": false,
+                            "status": false,
+                            "internal": "status Show which covers need fixing (no changes)."
+                        },
+                        {
+                            "name": "Fast Fix (incremental)",
+                            "priority": 3,
+                            "action": "./bin/fix-cover/fast_fix.sh --fix",
+                            "exitmenu": true,
+                            "checked": false,
+                            "status": false,
+                            "internal": "status Incremental cover fix (index + cover store)."
+                        },
+                        {
+                            "name": "Rebuild Cover Cache",
+                            "priority": 4,
+                            "action": "./bin/fix-cover/fast_fix.sh --rebuild",
+                            "exitmenu": true,
+                            "checked": false,
+                            "status": false,
+                            "internal": "status Rebuild all covers from the books."
                         }
                     ]
                 },

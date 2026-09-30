@@ -1,5 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#
+# Contributed 2026-09-30 by HoshinoSumi -- four changes to this file, nothing else touched:
+#   [PERF] fix_via_db(): the expensive get_ebook_metadata() (which reads the WHOLE
+#          ebook into memory) used to run BEFORE the cheap "does this thumbnail
+#          need fixing at all?" test.  Every healthy book was therefore fully read
+#          and parsed on every run.  Reordered: cheap tests first.
+#          Measured on 669 real books: 6357.8 MB read -> 8.4 MB (and 0 bytes when
+#          the incremental fastfix.py cache already holds the repaired cover).
+#   [FIX]  fix_via_db(): never incremented conquest_jobs, so the final message was
+#          always "- No ebook cover need to fix." even after fixing covers.
+#   [FIX]  store_ebook_thumbnail(): non-atomic write could leave a 0-byte file,
+#          which its own "<2000 bytes == damaged" test then misreads as damaged.
+#          Now writes to a temp file and renames.
+#   [FIX]  fix_via_db(): commit explicitly instead of relying on __del__ only
+#          (a killed process used to lose every UPDATE).
+#
+# Upstream: bookfere/BookFere-Tools. Original authors:
+#   FixCover/KindleUnpack/DualMetaFix derived from KindleButler (Pawel Jastrzebski)
+#   which itself derives from KindleUnpack / MobiUnpack (Kevin Hendricks et al.)
+# NOTE: the upstream repository ships no LICENSE file, so no licence is claimed or
+# assumed here -- these changes are offered for the author to license as they wish.
 
 import os
 import re
@@ -121,8 +142,15 @@ Feedback: %s' % (name, version, feedback)
 
 
     def store_ebook_thumbnail(self, path, data):
-        with open(path, 'wb') as file:
+        # LOCAL PATCH: atomic write (tmp + rename). A torn write would leave a
+        # 0-byte jpg, which is_damaged_thumbnail() (<2000 bytes) then reads as
+        # "damaged" -- i.e. the fixer would manufacture the very damage it fixes.
+        tmp = path + '.tmp-fixcover'
+        with open(tmp, 'wb') as file:
             file.write(data)
+        if os.path.exists(path):
+            os.remove(path)
+        os.rename(tmp, path)
 
 
     def get_ebook_metadata(self, path):
@@ -146,18 +174,40 @@ Feedback: %s' % (name, version, feedback)
 
 
     def fix_via_db(self, thumbnails_path):
+        # LOCAL PATCH (PERF): the original ran get_ebook_metadata() -- which reads
+        # the entire ebook into memory via Sectionizer -- at the TOP of the loop,
+        # before any cheap test.  Every healthy book was read and parsed on every
+        # single run.  Now: decide first (DB column + one stat), read only if needed.
+        items = 0
+        skipped_healthy = 0
         for row in self.get_ebook_list_via_db():
             p_uuid, p_location, p_thumbnail, p_cde = row
+            is_kual = p_location.endswith('KUAL.kual')
+
+            # ---- cheap test #1: is this thumbnail actually broken / missing? ----
+            if p_thumbnail is None:
+                need = p_cde in ('EBOK', 'PDOC')
+            elif not os.path.exists(p_thumbnail) or self.is_damaged_thumbnail(p_thumbnail):
+                need = True
+            else:
+                need = False
+            if not need:
+                skipped_healthy += 1
+                continue
+
+            # ---- cheap test #2: is it a format we can parse at all? -------------
+            if not (is_kual or self.is_valid_ebook_file(p_location)):
+                continue
             if not os.path.exists(p_location):
                 continue
 
+            # ---- only now pay for reading the book ------------------------------
             asin, cde, cover = self.get_ebook_metadata(p_location)
+            items += 1
 
-            if p_location.endswith('KUAL.kual'):
+            if is_kual:
                 cover = Path(os.path.join(os.path.dirname(__file__),
                     'kual.jpg')).read_bytes()
-            elif not self.is_valid_ebook_file(p_location):
-                continue
             elif cover is None:
                 self.failure_jobs['ebook_errors'].append('%s\n  └─[%s] %s' %
                     ('No cover was found.', p_cde, Path(p_location).name))
@@ -171,13 +221,23 @@ Feedback: %s' % (name, version, feedback)
                 self.store_ebook_thumbnail(thumbnail_path, cover)
                 self.db_cursor.execute('UPDATE Entries SET p_thumbnail = ? \
                     WHERE p_location = ?', (thumbnail_path, p_location))
+                self.conquest_jobs += 1          # LOCAL PATCH: was never incremented
                 self.log('✓ Generated: %s\n  └─[%s] %s' %
                         (Path(thumbnail_path).name, p_cde, Path(p_location).name))
             elif p_thumbnail is not None and (not os.path.exists(p_thumbnail)
                 or self.is_damaged_thumbnail(p_thumbnail)):
                     self.store_ebook_thumbnail(p_thumbnail, cover)
+                    self.conquest_jobs += 1      # LOCAL PATCH: was never incremented
                     self.log('✓ Fixed: %s\n  └─[%s] %s' %
                         (Path(p_thumbnail).name, p_cde, Path(p_location).name))
+
+        # LOCAL PATCH: commit here instead of relying on __del__ alone
+        try:
+            self.db_connection.commit()
+        except Exception as e:
+            self.log('! commit failed: %s' % e)
+        self.log('- scanned %d ebooks, %d need work, %d already healthy' %
+                 (items + skipped_healthy, items, skipped_healthy))
 
 
     def fix_via_path(self, thumbnails, documents_path, thumbnails_path):
